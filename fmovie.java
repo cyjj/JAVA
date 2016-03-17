@@ -11,13 +11,14 @@ import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapreduce.filecache.DistributedCache;
 import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 /*
- * do twice join, distributed cache failed
+ * do twice join, distributed cache with one time join failed.
+ this is a very simple try about reduce side join. based on the result, its not a wise way to do simple join
+ in this way, hive and pig will be much more convenient to do this job.
  */
 public class fmovie {
 	private static Map<String,String> mymap = new HashMap<String,String>();
@@ -50,10 +51,10 @@ public class fmovie {
 			private Text one = new Text();  // type of output key 
 			public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 				String[] mydata = value.toString().split("::");
-				one.set("usr");
+				one.set("usr");//give tag
 				usrid.set(mydata[0].trim());
 				if(mydata[1].equals("F"))
-				{
+				{//grab the female information
 					context.write(usrid, one);
 				}
 				
