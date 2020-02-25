@@ -1,2 +1,2 @@
-# JAVA
-this contains various java code used in different courses
+
+some various java toy code used in different courses
